@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -124,13 +125,14 @@ public class MainActivity extends AppCompatActivity {
         // result.getContents -> 取得之掃描結果
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
-            Log.i("TAG", result.getContents());
-
-            if (result.getContents().equals("**")) {
-                Log.i("TAG", "YES!");
-                connectedToWifi();
+            if (result.getContents() == null) {
+                Toast.makeText(MainActivity.this, "沒有東西", Toast.LENGTH_LONG).show();
+            } else {
+                if (result.getContents().equals("**")) {
+                    Log.i("TAG", "YES!");
+                    connectedToWifi();
+                }
             }
-
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
